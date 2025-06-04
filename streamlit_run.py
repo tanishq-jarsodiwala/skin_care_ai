@@ -172,11 +172,11 @@ def get_skincare_recommendation(goal: str, history: str, brightness: float):
         }
     
     # Try Hugging Face API first (if API key is available)
-    hf_api_key = st.secrets.get("HUGGING_FACE_API_KEY", None) if hasattr(st, 'secrets') else None
+    hf_api_key = "hf_bYQPJEhXsXRODCujrBNQYOxOzLsNSJvWV"
     
     if hf_api_key:
         try:
-            headers = {"Authorization": f"Bearer hf_bYQPJEhXsXRODCujrBNQYOxOzLsNSJvWV"}
+            headers = {"Authorization": f"Bearer {hf_api_key}"}
             api_url = "https://api-inference.huggingface.co/models/gpt2"
             
             payload = {
@@ -333,8 +333,7 @@ def main():
     st.markdown('<h1 class="main-header">🧴 AI Skincare Recommendation System</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Get personalized skincare advice powered by AI and advanced image analysis</p>', unsafe_allow_html=True)
     
-    # Success message for deployment
-    st.success("✅ Application is ready! No backend server required.")
+
     
     # Sidebar for instructions
     with st.sidebar:
@@ -357,7 +356,8 @@ def main():
         st.markdown("### 🎯 Popular Goals")
         goals = [
             "Brightening", "Anti-aging", "Acne treatment", 
-            "Hydration", "Oil control", "Sensitive skin care"
+            "Hydration", "Oil control", "Sensitive skin care",
+            "Pore minimization", "Dark circles", "Rosacea care"
         ]
         for goal in goals:
             if st.button(f"💡 {goal}", key=f"goal_{goal}"):
@@ -385,20 +385,76 @@ def main():
     with col2:
         st.markdown("### 🎯 Your Skincare Goals")
         
-        # Goal input
-        goal_input = st.text_input(
+        # Goal dropdown
+        skincare_goals = [
+            "Select your skincare goal",
+            "Brightening and evening skin tone",
+            "Anti-aging and wrinkle reduction", 
+            "Acne treatment and oil control",
+            "Hydration for dry skin",
+            "Sensitive skin care routine",
+            "Pore minimization",
+            "Dark circles and under-eye care",
+            "Rosacea and redness reduction",
+            "Hyperpigmentation treatment",
+            "Blackhead and whitehead removal",
+            "Firming and tightening",
+            "Sun damage repair",
+            "Melasma treatment",
+            "Eczema and dermatitis care",
+            "Oil control and mattifying",
+            "Exfoliation and skin renewal",
+            "Barrier repair and protection",
+            "Anti-inflammatory treatment",
+            "Skin texture improvement",
+            "Natural glow enhancement"
+        ]
+        
+        goal_input = st.selectbox(
             "What's your main skincare goal?",
-            value=st.session_state.get('selected_goal', ''),
-            placeholder="e.g., brightening, anti-aging, acne treatment",
-            help="Be specific about what you want to achieve"
+            options=skincare_goals,
+            help="Select your primary skincare concern"
         )
         
-        # History input
-        history_input = st.text_area(
+        # Previous products dropdown
+        previous_products = [
+            "Select products you've used",
+            "Vitamin C serum",
+            "Niacinamide serum",
+            "Retinol/Retinoid products",
+            "Hyaluronic acid serum",
+            "Salicylic acid products",
+            "Benzoyl peroxide treatments",
+            "AHA/BHA exfoliants",
+            "Peptide serums",
+            "Ceramide moisturizers",
+            "Sunscreen/SPF products",
+            "Tea tree oil treatments",
+            "Kojic acid products",
+            "Alpha arbutin serum",
+            "Azelaic acid treatments",
+            "Glycolic acid products",
+            "Lactic acid treatments",
+            "Zinc oxide products",
+            "Collagen serums",
+            "Bakuchiol products",
+            "Squalane oil",
+            "Rosehip oil",
+            "Argan oil treatments",
+            "Centella asiatica products",
+            "Snail mucin products",
+            "Clay masks",
+            "Charcoal treatments",
+            "Chemical peels",
+            "Microneedling treatments",
+            "LED light therapy",
+            "None of the above"
+        ]
+        
+        history_input = st.multiselect(
             "Previous skincare products used:",
-            placeholder="e.g., Vitamin C serum, Niacinamide, Retinol cream, CeraVe cleanser",
-            help="List products you've used before, including brands if possible",
-            height=100
+            options=previous_products,
+            help="Select all products you've used before (you can select multiple)"
         )
         
         # Additional options
@@ -410,7 +466,10 @@ def main():
         )
         
         if skin_type != "Not specified":
-            history_input += f" | Skin Type: {skin_type}"
+            if isinstance(history_input, list):
+                history_input.append(f"Skin Type: {skin_type}")
+            else:
+                history_input += f" | Skin Type: {skin_type}"
         
         age_range = st.selectbox(
             "Age Range (optional)",
@@ -418,7 +477,10 @@ def main():
         )
         
         if age_range != "Not specified":
-            history_input += f" | Age: {age_range}"
+            if isinstance(history_input, list):
+                history_input.append(f"Age: {age_range}")
+            else:
+                history_input += f" | Age: {age_range}"
     
     # Submit button
     st.markdown("---")
@@ -430,13 +492,17 @@ def main():
             st.error("❌ Please upload an image first!")
             return
         
-        if not goal_input.strip():
-            st.error("❌ Please enter your skincare goal!")
+        if goal_input == "Select your skincare goal":
+            st.error("❌ Please select your skincare goal!")
             return
         
-        if not history_input.strip():
+        if not history_input or history_input == ["Select products you've used"]:
             st.warning("⚠️ Adding product history will improve recommendations!")
             history_input = "No previous products mentioned"
+        
+        # Convert list to string if it's a list
+        if isinstance(history_input, list):
+            history_input = ", ".join(history_input)
         
         # Show loading
         with st.spinner("🔄 Analyzing your image and generating recommendations..."):
@@ -487,18 +553,21 @@ def show_sample_data():
     with st.expander("Click to see sample inputs for testing"):
         st.markdown("**Sample Goals:**")
         st.code("""
-        - "brightening and evening skin tone"
-        - "anti-aging and wrinkle reduction"
-        - "acne treatment and oil control"
-        - "hydration for dry skin"
-        - "sensitive skin care routine"
+        - "Brightening and evening skin tone"
+        - "Anti-aging and wrinkle reduction"
+        - "Acne treatment and oil control"
+        - "Hydration for dry skin"
+        - "Sensitive skin care routine"
+        - "Pore minimization"
+        - "Dark circles and under-eye care"
         """)
         
         st.markdown("**Sample Product History:**")
         st.code("""
-        - "Vitamin C serum, Niacinamide 10%, CeraVe Hydrating Cleanser, Neutrogena SPF 30"
-        - "Retinol cream, Hyaluronic acid serum, The Ordinary products"
-        - "Salicylic acid cleanser, Benzoyl peroxide, Tea tree oil treatments"
+        - "Vitamin C serum, Niacinamide serum, Sunscreen"
+        - "Retinol products, Hyaluronic acid serum"
+        - "Salicylic acid, Benzoyl peroxide treatments"
+        - "Ceramide moisturizers, Gentle cleansers"
         """)
 
 # Initialize session state
