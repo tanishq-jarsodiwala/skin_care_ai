@@ -19,18 +19,67 @@ st.set_page_config(
 # Custom CSS for better styling
 st.markdown("""
 <style>
+    /* Background image for main app */
+    .stApp {
+        background-image: url('https://i.postimg.cc/hXztbbsn/image.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    /* Background overlay for better readability */
+    .stApp::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        z-index: -1;
+    }
+    
+    /* Sidebar background */
+    .css-1d391kg {
+        background-image: url('https://i.postimg.cc/hXztbbsn/image.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+    /* Sidebar overlay */
+    .css-1d391kg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 0;
+    }
+    
+    /* Ensure sidebar content is above overlay */
+    .sidebar .sidebar-content {
+        position: relative;
+        z-index: 1;
+    }
+    
     .main-header {
         text-align: center;
         color: #FF6B6B;
         font-size: 3rem;
         font-weight: bold;
         margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
     .sub-header {
         text-align: center;
         color: #4ECDC4;
         font-size: 1.2rem;
         margin-bottom: 3rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
     .recommendation-box {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -38,6 +87,8 @@ st.markdown("""
         border-radius: 10px;
         color: white;
         margin: 20px 0;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .analysis-box {
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -45,6 +96,8 @@ st.markdown("""
         border-radius: 10px;
         color: white;
         margin: 20px 0;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .success-box {
         background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -52,6 +105,8 @@ st.markdown("""
         border-radius: 10px;
         color: white;
         margin: 20px 0;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .stButton > button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -61,12 +116,28 @@ st.markdown("""
         padding: 10px 20px;
         font-weight: bold;
         width: 100%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    .sidebar .sidebar-content {
-        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    
+    /* Content boxes with better visibility */
+    .block-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        margin: 10px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
 </style>
 """, unsafe_allow_html=True)
+
+# Initialize session state
+if 'uploaded_file_data' not in st.session_state:
+    st.session_state.uploaded_file_data = None
+if 'uploaded_file_name' not in st.session_state:
+    st.session_state.uploaded_file_name = None
+if 'selected_goal' not in st.session_state:
+    st.session_state.selected_goal = ''
 
 # Backend Logic - Moved from FastAPI to Streamlit
 @st.cache_data
@@ -370,16 +441,28 @@ def main():
         uploaded_file = st.file_uploader(
             "Choose a clear face image",
             type=['png', 'jpg', 'jpeg'],
-            help="Upload a clear photo of your face for skin analysis"
+            help="Upload a clear photo of your face for skin analysis",
+            key="file_uploader"
         )
         
+        # Store uploaded file data in session state
         if uploaded_file is not None:
+            st.session_state.uploaded_file_data = uploaded_file.getvalue()
+            st.session_state.uploaded_file_name = uploaded_file.name
+            
             # Display uploaded image
             image = Image.open(uploaded_file)
             st.image(image, caption="Uploaded Image", use_container_width=True)
             
             # Image info
             st.info(f"📏 Image size: {image.size[0]}x{image.size[1]} pixels")
+        
+        # Show previously uploaded image if exists
+        elif st.session_state.uploaded_file_data is not None:
+            image = Image.open(io.BytesIO(st.session_state.uploaded_file_data))
+            st.image(image, caption=f"Current Image: {st.session_state.uploaded_file_name}", use_container_width=True)
+            st.info(f"📏 Image size: {image.size[0]}x{image.size[1]} pixels")
+            st.success("✅ Image loaded and ready for analysis!")
     
     with col2:
         st.markdown("### 🎯 Your Skincare Goals")
@@ -412,7 +495,8 @@ def main():
         goal_input = st.selectbox(
             "What's your main skincare goal?",
             options=skincare_goals,
-            help="Select your primary skincare concern"
+            help="Select your primary skincare concern",
+            key="goal_selector"
         )
         
         # Previous products dropdown
@@ -453,7 +537,8 @@ def main():
         history_input = st.multiselect(
             "Previous skincare products used:",
             options=previous_products,
-            help="Select all products you've used before (you can select multiple)"
+            help="Select all products you've used before (you can select multiple)",
+            key="history_selector"
         )
         
         # Additional options
@@ -461,33 +546,23 @@ def main():
         
         skin_type = st.selectbox(
             "Skin Type (optional)",
-            ["Not specified", "Oily", "Dry", "Combination", "Sensitive", "Normal"]
+            ["Not specified", "Oily", "Dry", "Combination", "Sensitive", "Normal"],
+            key="skin_type_selector"
         )
-        
-        if skin_type != "Not specified":
-            if isinstance(history_input, list):
-                history_input.append(f"Skin Type: {skin_type}")
-            else:
-                history_input += f" | Skin Type: {skin_type}"
         
         age_range = st.selectbox(
             "Age Range (optional)",
-            ["Not specified", "Under 20", "20-30", "30-40", "40-50", "50+"]
+            ["Not specified", "Under 20", "20-30", "30-40", "40-50", "50+"],
+            key="age_range_selector"
         )
-        
-        if age_range != "Not specified":
-            if isinstance(history_input, list):
-                history_input.append(f"Age: {age_range}")
-            else:
-                history_input += f" | Age: {age_range}"
     
     # Submit button
     st.markdown("---")
     
-    if st.button("🚀 Get AI Skincare Recommendations", type="primary", use_container_width=True):
+    if st.button("🚀 Get AI Skincare Recommendations", type="primary", use_container_width=True, key="submit_button"):
         
-        # Validation
-        if uploaded_file is None:
+        # Validation using session state data
+        if st.session_state.uploaded_file_data is None:
             st.error("❌ Please upload an image first!")
             return
         
@@ -499,9 +574,23 @@ def main():
             st.warning("⚠️ Adding product history will improve recommendations!")
             history_input = "No previous products mentioned"
         
-        # Convert list to string if it's a list
+        # Prepare history input
+        history_text = history_input
         if isinstance(history_input, list):
-            history_input = ", ".join(history_input)
+            history_text = ", ".join(history_input)
+        
+        # Add additional info to history
+        additional_info = []
+        if skin_type != "Not specified":
+            additional_info.append(f"Skin Type: {skin_type}")
+        if age_range != "Not specified":
+            additional_info.append(f"Age: {age_range}")
+        
+        if additional_info:
+            if history_text == "No previous products mentioned":
+                history_text = " | ".join(additional_info)
+            else:
+                history_text += " | " + " | ".join(additional_info)
         
         # Show loading
         with st.spinner("🔄 Analyzing your image and generating recommendations..."):
@@ -511,9 +600,8 @@ def main():
                 time.sleep(0.01)
                 progress_bar.progress(i + 1)
             
-            # Process the request
-            image_bytes = uploaded_file.getvalue()
-            result, error = process_skincare_request(image_bytes, goal_input, history_input)
+            # Process the request using session state data
+            result, error = process_skincare_request(st.session_state.uploaded_file_data, goal_input, history_text)
         
         # Clear progress bar
         progress_bar.empty()
@@ -589,7 +677,8 @@ Generated by AI Skincare Recommendation System
                 data=download_content,
                 file_name=f"skincare_recommendations_{int(time.time())}.txt",
                 mime="text/plain",
-                help="Download your complete skincare recommendation report"
+                help="Download your complete skincare recommendation report",
+                key="download_button"
             )
         else:
             st.error("❌ Unexpected error occurred. Please try again.")
@@ -627,10 +716,6 @@ def show_sample_data():
         - "Salicylic acid, Benzoyl peroxide treatments"
         - "Ceramide moisturizers, Gentle cleansers"
         """)
-
-# Initialize session state
-if 'selected_goal' not in st.session_state:
-    st.session_state.selected_goal = ''
 
 # Run the main app
 if __name__ == "__main__":
