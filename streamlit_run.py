@@ -16,19 +16,22 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better styling
+# Premium CSS with rose petals background
 st.markdown("""
 <style>
-    /* Background image for main app */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    /* Main app background with rose petals */
     .stApp {
         background-image: url('https://i.postimg.cc/hXztbbsn/image.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
+        font-family: 'Poppins', sans-serif;
     }
     
-    /* Background overlay for better readability */
+    /* Premium glass overlay for better readability */
     .stApp::before {
         content: '';
         position: fixed;
@@ -36,28 +39,31 @@ st.markdown("""
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
         z-index: -1;
     }
     
-    /* Sidebar background */
-    .css-1d391kg {
+    /* Sidebar styling with rose petals */
+    .css-1d391kg, .css-1cypcdb {
         background-image: url('https://i.postimg.cc/hXztbbsn/image.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
     
-    /* Sidebar overlay */
-    .css-1d391kg::before {
+    /* Sidebar glass overlay */
+    .css-1d391kg::before, .css-1cypcdb::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(15px);
         z-index: 0;
+        border-radius: 15px;
     }
     
     /* Ensure sidebar content is above overlay */
@@ -66,67 +72,270 @@ st.markdown("""
         z-index: 1;
     }
     
-    .main-header {
-        text-align: center;
-        color: #FF6B6B;
-        font-size: 3rem;
-        font-weight: bold;
-        margin-bottom: 2rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    .sub-header {
-        text-align: center;
-        color: #4ECDC4;
-        font-size: 1.2rem;
-        margin-bottom: 3rem;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    }
-    .recommendation-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 20px;
-        border-radius: 10px;
-        color: white;
-        margin: 20px 0;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .analysis-box {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        padding: 20px;
-        border-radius: 10px;
-        color: white;
-        margin: 20px 0;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .success-box {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        padding: 20px;
-        border-radius: 10px;
-        color: white;
-        margin: 20px 0;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .stButton > button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 20px;
-        font-weight: bold;
-        width: 100%;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    /* Main content containers with premium glass effect */
+    .block-container {
+        background: rgba(255, 255, 255, 0.20);
+        backdrop-filter: blur(20px);
+        border-radius: 25px;
+        padding: 30px;
+        margin: 15px;
+        box-shadow: 
+            0 20px 40px rgba(0,0,0,0.1),
+            inset 0 1px 0 rgba(255,255,255,0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
-    /* Content boxes with better visibility */
-    .block-container {
-        background: rgba(255, 255, 255, 0.95);
+    /* Headers with elegant styling */
+    .main-header {
+        text-align: center;
+        background: linear-gradient(135deg, #d63384, #fd7e14, #e83e8c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 20px rgba(214, 51, 132, 0.3);
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .sub-header {
+        text-align: center;
+        color: #6f42c1;
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin-bottom: 3rem;
+        text-shadow: 1px 1px 10px rgba(111, 66, 193, 0.3);
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Premium boxes with rose-inspired gradients */
+    .recommendation-box {
+        background: linear-gradient(135deg, 
+            rgba(214, 51, 132, 0.9) 0%, 
+            rgba(232, 62, 140, 0.9) 50%, 
+            rgba(253, 126, 20, 0.9) 100%);
+        padding: 25px;
+        border-radius: 20px;
+        color: white;
+        margin: 25px 0;
+        backdrop-filter: blur(15px);
+        box-shadow: 
+            0 15px 35px rgba(214, 51, 132, 0.3),
+            inset 0 1px 0 rgba(255,255,255,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .analysis-box {
+        background: linear-gradient(135deg, 
+            rgba(232, 62, 140, 0.9) 0%, 
+            rgba(111, 66, 193, 0.9) 50%, 
+            rgba(13, 110, 253, 0.9) 100%);
+        padding: 25px;
+        border-radius: 20px;
+        color: white;
+        margin: 25px 0;
+        backdrop-filter: blur(15px);
+        box-shadow: 
+            0 15px 35px rgba(232, 62, 140, 0.3),
+            inset 0 1px 0 rgba(255,255,255,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .success-box {
+        background: linear-gradient(135deg, 
+            rgba(111, 66, 193, 0.9) 0%, 
+            rgba(13, 110, 253, 0.9) 50%, 
+            rgba(32, 201, 151, 0.9) 100%);
+        padding: 25px;
+        border-radius: 20px;
+        color: white;
+        margin: 25px 0;
+        backdrop-filter: blur(15px);
+        box-shadow: 
+            0 15px 35px rgba(111, 66, 193, 0.3),
+            inset 0 1px 0 rgba(255,255,255,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Premium buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, #d63384 0%, #e83e8c 50%, #fd7e14 100%);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 15px 25px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        width: 100%;
+        box-shadow: 
+            0 10px 25px rgba(214, 51, 132, 0.4),
+            inset 0 1px 0 rgba(255,255,255,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            0 15px 35px rgba(214, 51, 132, 0.5),
+            inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    
+    /* Form elements with glass effect */
+    .stSelectbox > div > div {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        border: 1px solid rgba(214, 51, 132, 0.2);
+    }
+    
+    .stMultiSelect > div > div {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        border: 1px solid rgba(214, 51, 132, 0.2);
+    }
+    
+    /* File uploader styling */
+    .stFileUploader > div {
+        background: rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(10px);
         border-radius: 15px;
+        border: 2px dashed rgba(214, 51, 132, 0.3);
         padding: 20px;
-        margin: 10px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    /* Metrics styling */
+    .metric-container {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 15px;
+        margin: 10px 0;
+        border: 1px solid rgba(214, 51, 132, 0.2);
+    }
+    
+    /* Progress bar */
+    .stProgress > div > div {
+        background: linear-gradient(135deg, #d63384 0%, #e83e8c 50%, #fd7e14 100%);
+        border-radius: 10px;
+    }
+    
+    /* Info and warning boxes */
+    .stInfo {
+        background: rgba(13, 110, 253, 0.1);
+        backdrop-filter: blur(10px);
+        border-left: 4px solid #0d6efd;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .stWarning {
+        background: rgba(253, 126, 20, 0.1);
+        backdrop-filter: blur(10px);
+        border-left: 4px solid #fd7e14;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .stSuccess {
+        background: rgba(32, 201, 151, 0.1);
+        backdrop-filter: blur(10px);
+        border-left: 4px solid #20c997;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .stError {
+        background: rgba(220, 53, 69, 0.1);
+        backdrop-filter: blur(10px);
+        border-left: 4px solid #dc3545;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    /* Sidebar specific styling */
+    .css-1544g2n {
+        color: #6f42c1;
+        font-weight: 600;
+    }
+    
+    /* Hide default Streamlit elements */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #d63384, #e83e8c);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #e83e8c, #fd7e14);
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .main-header {
+            font-size: 2.5rem;
+        }
+        
+        .sub-header {
+            font-size: 1.1rem;
+        }
+        
+        .block-container {
+            padding: 20px;
+            margin: 10px;
+        }
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .main-header, .sub-header {
+        animation: fadeInUp 1s ease-out;
+    }
+    
+    /* Image styling */
+    .stImage {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    
+    /* Expander styling */
+    .streamlit-expanderHeader {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        border: 1px solid rgba(214, 51, 132, 0.2);
+    }
+    
+    /* Download button special styling */
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #20c997 0%, #0d6efd 100%);
+        color: white;
+        border-radius: 12px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(32, 201, 151, 0.3);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -399,49 +608,49 @@ def display_results(result):
     st.markdown('</div>', unsafe_allow_html=True)
 
 def main():
-    # Header
-    st.markdown('<h1 class="main-header">🧴 AI Skincare Recommendation System</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-header">Get personalized skincare advice powered by AI and advanced image analysis</p>', unsafe_allow_html=True)
+    # Header with elegant styling
+    st.markdown('<h1 class="main-header">🌹 Premium Skincare Studio</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-header">✨ AI-Powered Beauty Recommendations with Rose Petal Elegance ✨</p>', unsafe_allow_html=True)
     
 
     
-    # Sidebar for instructions
+    # Sidebar for instructions with premium styling
     with st.sidebar:
-        st.markdown("### 📋 How to Use")
+        st.markdown("### 🌸 How to Use Our Premium Service")
         st.markdown("""
-        1. **Upload Your Photo** - Clear face image works best
-        2. **Set Your Goal** - What do you want to achieve?
-        3. **Add Your History** - Products you've used before
-        4. **Get Recommendations** - AI will analyze and suggest
+        1. **📸 Upload Your Photo** - Clear, natural lighting preferred
+        2. **🎯 Set Your Beauty Goal** - What transformation do you seek?
+        3. **📋 Share Your Journey** - Products you've tried before
+        4. **✨ Get Expert AI Recommendations** - Personalized just for you
         """)
         
-        st.markdown("### 💡 Tips")
+        st.markdown("### 💎 Premium Tips")
         st.markdown("""
-        - Use natural lighting for photos
-        - Be specific about your skincare goals
-        - Include brand names in product history
-        - Consider allergies and skin sensitivity
+        - **Natural lighting** reveals your true skin tone
+        - **Be specific** about your skincare aspirations
+        - **Mention brands** you've used for better insights
+        - **Consider sensitivities** for safer recommendations
         """)
         
-        st.markdown("### 🎯 Popular Goals")
+        st.markdown("### 🌟 Popular Beauty Goals")
         goals = [
-            "Brightening", "Anti-aging", "Acne treatment", 
-            "Hydration", "Oil control", "Sensitive skin care",
-            "Pore minimization", "Dark circles", "Rosacea care"
+            "🌟 Radiant Brightening", "⏰ Anti-aging Excellence", "✨ Acne-Free Confidence", 
+            "💧 Deep Hydration", "🎭 Oil Balance Control", "🤍 Sensitive Skin Care",
+            "🔍 Pore Perfection", "👁️ Dark Circle Treatment", "🌹 Rosacea Comfort"
         ]
         for goal in goals:
-            if st.button(f"💡 {goal}", key=f"goal_{goal}"):
-                st.session_state.selected_goal = goal
+            if st.button(goal, key=f"goal_{goal}"):
+                st.session_state.selected_goal = goal.split(' ', 1)[1]  # Remove emoji
     
-    # Main content area
+    # Main content area with premium layout
     col1, col2 = st.columns([1, 1])
     
     with col1:
-        st.markdown("### 📸 Upload Your Photo")
+        st.markdown("### 📸 Your Beauty Portrait")
         uploaded_file = st.file_uploader(
-            "Choose a clear face image",
+            "Upload your beautiful face for analysis",
             type=['png', 'jpg', 'jpeg'],
-            help="Upload a clear photo of your face for skin analysis",
+            help="Share a clear photo of your gorgeous face for personalized skin analysis",
             key="file_uploader"
         )
         
@@ -452,83 +661,77 @@ def main():
             
             # Display uploaded image
             image = Image.open(uploaded_file)
-            st.image(image, caption="Uploaded Image", use_container_width=True)
+            st.image(image, caption="Your Beautiful Portrait", use_container_width=True)
             
-            # Image info
-            st.info(f"📏 Image size: {image.size[0]}x{image.size[1]} pixels")
+            # Image info with premium styling
+            st.info(f"✨ Image Resolution: {image.size[0]}x{image.size[1]} pixels")
         
         # Show previously uploaded image if exists
         elif st.session_state.uploaded_file_data is not None:
             image = Image.open(io.BytesIO(st.session_state.uploaded_file_data))
-            st.image(image, caption=f"Current Image: {st.session_state.uploaded_file_name}", use_container_width=True)
-            st.info(f"📏 Image size: {image.size[0]}x{image.size[1]} pixels")
-            st.success("✅ Image loaded and ready for analysis!")
+            st.image(image, caption=f"Current Portrait: {st.session_state.uploaded_file_name}", use_container_width=True)
+            st.info(f"✨ Image Resolution: {image.size[0]}x{image.size[1]} pixels")
+            st.success("🌹 Portrait ready for premium analysis!")
     
     with col2:
-        st.markdown("### 🎯 Your Skincare Goals")
+        st.markdown("### 🎯 Your Beauty Aspirations")
         
-        # Goal dropdown
+        # Premium goal dropdown
         skincare_goals = [
-            "Select your skincare goal",
-            "Brightening and evening skin tone",
-            "Anti-aging and wrinkle reduction", 
-            "Acne treatment and oil control",
-            "Hydration for dry skin",
-            "Sensitive skin care routine",
-            "Pore minimization",
-            "Dark circles and under-eye care",
-            "Rosacea and redness reduction",
-            "Hyperpigmentation treatment",
-            "Blackhead and whitehead removal",
-            "Firming and tightening",
-            "Sun damage repair",
-            "Melasma treatment",
-            "Eczema and dermatitis care",
-            "Oil control and mattifying",
-            "Exfoliation and skin renewal",
-            "Barrier repair and protection",
-            "Anti-inflammatory treatment",
-            "Skin texture improvement",
-            "Natural glow enhancement"
+            "🌟 Choose your beauty transformation",
+            "✨ Brightening and luminous skin tone",
+            "⏰ Anti-aging and wrinkle prevention", 
+            "🎭 Acne treatment and clear skin",
+            "💧 Deep hydration for glowing skin",
+            "🤍 Gentle care for sensitive skin",
+            "🔍 Pore minimization and refinement",
+            "👁️ Dark circles and under-eye renewal",
+            "🌹 Rosacea and redness comfort",
+            "🎨 Hyperpigmentation transformation",
+            "💎 Blackhead and whitehead elimination",
+            "🌟 Firming and skin tightening",
+            "☀️ Sun damage repair and protection",
+            "🎭 Melasma treatment and care",
+            "🤍 Eczema and dermatitis comfort",
+            "⚖️ Oil control and mattifying balance",
+            "🔄 Exfoliation and skin renewal",
+            "🛡️ Barrier repair and protection",
+            "🌿 Anti-inflammatory treatment",
+            "✨ Skin texture perfection",
+            "🌟 Natural radiance enhancement"
         ]
         
         goal_input = st.selectbox(
-            "What's your main skincare goal?",
+            "What's your primary beauty goal?",
             options=skincare_goals,
-            help="Select your primary skincare concern",
+            help="Select your most important skincare aspiration",
             key="goal_selector"
         )
         
-        # Previous products dropdown
+        # Premium products dropdown
         previous_products = [
-            "Select products you've used",
-            "Vitamin C serum",
-            "Niacinamide serum",
-            "Retinol/Retinoid products",
-            "Hyaluronic acid serum",
-            "Salicylic acid products",
-            "Benzoyl peroxide treatments",
-            "AHA/BHA exfoliants",
-            "Peptide serums",
-            "Ceramide moisturizers",
-            "Sunscreen/SPF products",
-            "Tea tree oil treatments",
-            "Kojic acid products",
-            "Alpha arbutin serum",
-            "Azelaic acid treatments",
-            "Glycolic acid products",
-            "Lactic acid treatments",
-            "Zinc oxide products",
-            "Collagen serums",
-            "Bakuchiol products",
-            "Squalane oil",
-            "Rosehip oil",
-            "Argan oil treatments",
-            "Centella asiatica products",
-            "Snail mucin products",
-            "Clay masks",
-            "Charcoal treatments",
-            "Chemical peels",
+            "💎 Select your skincare journey",
+            "🍊 Vitamin C brightening serum",
+            "✨ Niacinamide pore refining serum",
+            "🌙 Retinol/Retinoid anti-aging products",
+            "💧 Hyaluronic acid hydrating serum",
+            "🌿 Salicylic acid clarifying products",
+            "⚡ Benzoyl peroxide acne treatments",
+            "🔄 AHA/BHA exfoliating treatments",
+            "💪 Peptide strengthening serums",
+            "🛡️ Ceramide barrier moisturizers",
+            "☀️ Sunscreen/SPF protection products",
+            "🌿 Tea tree oil purifying treatments",
+            "🎨 Kojic acid brightening products",
+            "✨ Alpha arbutin spot-correcting serum",
+            "🌸 Azelaic acid gentle treatments",
+            "🍇 Glycolic acid renewal products",
+            "🥛 Lactic acid gentle exfoliants",
+            "🤍 Zinc oxide calming products",
+            "💎 Collagen boosting serums",
+            "🌿 Bakuchiol natural retinol alternative",
+            "✨ Squalane hydrating oil",
+            "🌹 Rosehip regenerating oil",
             "Microneedling treatments",
             "LED light therapy",
             "None of the above"
