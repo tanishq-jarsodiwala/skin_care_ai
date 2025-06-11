@@ -20,9 +20,8 @@ st.set_page_config(
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-    
-    /* Main app background with rose petals */
-    .stApp {
+
+    html, body, .stApp {
         background-image: url('https://i.postimg.cc/hXztbbsn/image.png');
         background-size: cover;
         background-position: center;
@@ -30,8 +29,7 @@ st.markdown("""
         background-attachment: fixed;
         font-family: 'Poppins', sans-serif;
     }
-    
-    /* Premium glass overlay for better readability */
+
     .stApp::before {
         content: '';
         position: fixed;
@@ -39,20 +37,61 @@ st.markdown("""
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
         z-index: -1;
     }
-    
-    /* Sidebar styling with rose petals */
+
+    .block-container {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(16px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .main-header {
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: #d63384;
+        margin-bottom: 1rem;
+        text-shadow: 1px 1px 10px rgba(214, 51, 132, 0.5);
+    }
+
+    .sub-header {
+        text-align: center;
+        color: #6f42c1;
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 8px rgba(111, 66, 193, 0.3);
+    }
+
+    /* Dropdown fix */
+    .stSelectbox > div, .stMultiSelect > div {
+        background: rgba(255, 255, 255, 0.85) !important;
+        color: #212529 !important;
+        border: 1px solid rgba(214, 51, 132, 0.5);
+        border-radius: 12px;
+    }
+
+    .stSelectbox div[role="combobox"] > div:first-child,
+    .stMultiSelect div[role="combobox"] > div:first-child {
+        color: #d63384;
+        font-weight: 600;
+    }
+
     .css-1d391kg, .css-1cypcdb {
         background-image: url('https://i.postimg.cc/hXztbbsn/image.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        border-radius: 15px;
     }
-    
-    /* Sidebar glass overlay */
+
     .css-1d391kg::before, .css-1cypcdb::before {
         content: '';
         position: absolute;
@@ -60,282 +99,58 @@ st.markdown("""
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
         z-index: 0;
         border-radius: 15px;
     }
-    
-    /* Ensure sidebar content is above overlay */
-    .sidebar .sidebar-content {
-        position: relative;
-        z-index: 1;
-    }
-    
-    /* Main content containers with premium glass effect */
-    .block-container {
-        background: rgba(255, 255, 255, 0.20);
-        backdrop-filter: blur(20px);
-        border-radius: 25px;
-        padding: 30px;
-        margin: 15px;
-        box-shadow: 
-            0 20px 40px rgba(0,0,0,0.1),
-            inset 0 1px 0 rgba(255,255,255,0.3);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    /* Headers with elegant styling */
-    .main-header {
-        text-align: center;
-        background: linear-gradient(135deg, #d63384, #fd7e14, #e83e8c);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-size: 3.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        text-shadow: 2px 2px 20px rgba(214, 51, 132, 0.3);
-        font-family: 'Poppins', sans-serif;
-    }
-    
-    .sub-header {
-        text-align: center;
-        color: #6f42c1;
-        font-size: 1.3rem;
-        font-weight: 400;
-        margin-bottom: 3rem;
-        text-shadow: 1px 1px 10px rgba(111, 66, 193, 0.3);
-        font-family: 'Poppins', sans-serif;
-    }
-    
-    /* Premium boxes with rose-inspired gradients */
-    .recommendation-box {
-        background: linear-gradient(135deg, 
-            rgba(214, 51, 132, 0.9) 0%, 
-            rgba(232, 62, 140, 0.9) 50%, 
-            rgba(253, 126, 20, 0.9) 100%);
-        padding: 25px;
-        border-radius: 20px;
-        color: white;
-        margin: 25px 0;
-        backdrop-filter: blur(15px);
-        box-shadow: 
-            0 15px 35px rgba(214, 51, 132, 0.3),
-            inset 0 1px 0 rgba(255,255,255,0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .analysis-box {
-        background: linear-gradient(135deg, 
-            rgba(232, 62, 140, 0.9) 0%, 
-            rgba(111, 66, 193, 0.9) 50%, 
-            rgba(13, 110, 253, 0.9) 100%);
-        padding: 25px;
-        border-radius: 20px;
-        color: white;
-        margin: 25px 0;
-        backdrop-filter: blur(15px);
-        box-shadow: 
-            0 15px 35px rgba(232, 62, 140, 0.3),
-            inset 0 1px 0 rgba(255,255,255,0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .success-box {
-        background: linear-gradient(135deg, 
-            rgba(111, 66, 193, 0.9) 0%, 
-            rgba(13, 110, 253, 0.9) 50%, 
-            rgba(32, 201, 151, 0.9) 100%);
-        padding: 25px;
-        border-radius: 20px;
-        color: white;
-        margin: 25px 0;
-        backdrop-filter: blur(15px);
-        box-shadow: 
-            0 15px 35px rgba(111, 66, 193, 0.3),
-            inset 0 1px 0 rgba(255,255,255,0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    /* Premium buttons */
+
     .stButton > button {
-        background: linear-gradient(135deg, #d63384 0%, #e83e8c 50%, #fd7e14 100%);
+        background: linear-gradient(135deg, #d63384 0%, #fd7e14 100%);
         color: white;
         border: none;
-        border-radius: 15px;
-        padding: 15px 25px;
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-size: 1rem;
         font-weight: 600;
-        font-size: 1.1rem;
-        width: 100%;
-        box-shadow: 
-            0 10px 25px rgba(214, 51, 132, 0.4),
-            inset 0 1px 0 rgba(255,255,255,0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-        font-family: 'Poppins', sans-serif;
+        box-shadow: 0 10px 20px rgba(214, 51, 132, 0.3);
+        transition: all 0.3s ease-in-out;
     }
-    
+
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 
-            0 15px 35px rgba(214, 51, 132, 0.5),
-            inset 0 1px 0 rgba(255,255,255,0.3);
+        transform: scale(1.03);
+        box-shadow: 0 15px 25px rgba(214, 51, 132, 0.5);
     }
-    
-    /* Form elements with glass effect */
-    .stSelectbox > div > div {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        border: 1px solid rgba(214, 51, 132, 0.2);
-    }
-    
-    .stMultiSelect > div > div {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        border: 1px solid rgba(214, 51, 132, 0.2);
-    }
-    
-    /* File uploader styling */
+
     .stFileUploader > div {
         background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
+        border: 2px dashed rgba(214, 51, 132, 0.4);
         border-radius: 15px;
-        border: 2px dashed rgba(214, 51, 132, 0.3);
         padding: 20px;
     }
-    
-    /* Metrics styling */
-    .metric-container {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 15px;
-        margin: 10px 0;
-        border: 1px solid rgba(214, 51, 132, 0.2);
-    }
-    
-    /* Progress bar */
-    .stProgress > div > div {
-        background: linear-gradient(135deg, #d63384 0%, #e83e8c 50%, #fd7e14 100%);
-        border-radius: 10px;
-    }
-    
-    /* Info and warning boxes */
-    .stInfo {
-        background: rgba(13, 110, 253, 0.1);
-        backdrop-filter: blur(10px);
-        border-left: 4px solid #0d6efd;
-        border-radius: 0 10px 10px 0;
-    }
-    
-    .stWarning {
-        background: rgba(253, 126, 20, 0.1);
-        backdrop-filter: blur(10px);
-        border-left: 4px solid #fd7e14;
-        border-radius: 0 10px 10px 0;
-    }
-    
-    .stSuccess {
-        background: rgba(32, 201, 151, 0.1);
-        backdrop-filter: blur(10px);
-        border-left: 4px solid #20c997;
-        border-radius: 0 10px 10px 0;
-    }
-    
-    .stError {
-        background: rgba(220, 53, 69, 0.1);
-        backdrop-filter: blur(10px);
-        border-left: 4px solid #dc3545;
-        border-radius: 0 10px 10px 0;
-    }
-    
-    /* Sidebar specific styling */
-    .css-1544g2n {
-        color: #6f42c1;
-        font-weight: 600;
-    }
-    
-    /* Hide default Streamlit elements */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    
-    /* Custom scrollbar */
+
     ::-webkit-scrollbar {
-        width: 12px;
+        width: 10px;
     }
-    
-    ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-    }
-    
+
     ::-webkit-scrollbar-thumb {
         background: linear-gradient(135deg, #d63384, #e83e8c);
         border-radius: 10px;
     }
-    
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #e83e8c, #fd7e14);
+
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
     }
-    
-    /* Responsive design */
-    @media (max-width: 768px) {
-        .main-header {
-            font-size: 2.5rem;
-        }
-        
-        .sub-header {
-            font-size: 1.1rem;
-        }
-        
-        .block-container {
-            padding: 20px;
-            margin: 10px;
-        }
-    }
-    
-    /* Animations */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .main-header, .sub-header {
-        animation: fadeInUp 1s ease-out;
-    }
-    
-    /* Image styling */
-    .stImage {
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    
-    /* Expander styling */
-    .streamlit-expanderHeader {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        border: 1px solid rgba(214, 51, 132, 0.2);
-    }
-    
-    /* Download button special styling */
+
     .stDownloadButton > button {
-        background: linear-gradient(135deg, #20c997 0%, #0d6efd 100%);
+        background: linear-gradient(135deg, #0d6efd, #20c997);
         color: white;
-        border-radius: 12px;
+        border-radius: 10px;
         font-weight: 600;
-        box-shadow: 0 8px 20px rgba(32, 201, 151, 0.3);
+        padding: 10px 20px;
+        border: none;
+        box-shadow: 0 8px 16px rgba(13, 110, 253, 0.2);
     }
 </style>
 """, unsafe_allow_html=True)
